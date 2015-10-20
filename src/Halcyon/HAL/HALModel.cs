@@ -15,6 +15,10 @@ namespace Halcyon.HAL
         internal readonly Dictionary<string, IEnumerable<HALModel>> embedded = new Dictionary<string, IEnumerable<HALModel>>();
         internal string baseUri;
 
+        public HALModel()
+        {
+        }
+
         public HALModel(object dto)
         {
             this.dto = dto;

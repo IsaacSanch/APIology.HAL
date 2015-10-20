@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="HAL\ControllerExtensions.cs" />
     <Compile Include="HAL\HALModel.cs" />
     <Compile Include="HAL\HALModelConverter.cs" />
     <Compile Include="HAL\HALModelExtensions.cs" />

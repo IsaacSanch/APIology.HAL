@@ -26,7 +26,11 @@ namespace Halcyon.HAL
             var model = value as HALModel;
             if (model == null) return;
 
-            var o = JToken.FromObject(model.dto) as JObject;
+            JObject output;
+            if (model.dto != null)
+                output = JToken.FromObject(model.dto) as JObject;
+            else
+                output = new JObject();
 
             if (model.links.Count > 0)
             {
@@ -37,15 +41,15 @@ namespace Halcyon.HAL
                         k => k.Count() == 1 ? k.SingleOrDefault() as object : k.AsEnumerable() as object
                     );
 
-                o.Add("_links", JObject.FromObject(allLinks, serializer));
+                output.Add("_links", JObject.FromObject(allLinks, serializer));
             }
 
             if (model.embedded.Count > 0)
             {
-                o.Add("_embedded", JToken.FromObject(model.embedded, serializer));
+                output.Add("_embedded", JToken.FromObject(model.embedded, serializer));
             }
 
-            o.WriteTo(writer);
+            output.WriteTo(writer);
         }
     }
 }
