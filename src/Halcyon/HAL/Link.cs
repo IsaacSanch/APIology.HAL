@@ -1,10 +1,12 @@
 ﻿using Halcyon.Templates;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using Tavis.UriTemplates;
 
 namespace Halcyon.HAL {
     public class Link {
@@ -12,11 +14,12 @@ namespace Halcyon.HAL {
 
         private static readonly Regex isTemplatedRegex = new Regex(@"{.+}", RegexOptions.Compiled);
 
-        public Link(string rel, string href, string title = null, string method = null) {
+        public Link(string rel, string href, string title = null, string method = null, string type = null) {
             this.Rel = rel;
             this.Href = href;
             this.Title = title;
             this.Method = method;
+            this.Type = type;
         }
 
         [JsonIgnore]
@@ -52,45 +55,33 @@ namespace Halcyon.HAL {
 
         [JsonProperty("hreflang", NullValueHandling = NullValueHandling.Ignore)]
         public string HrefLang { get; set; }
-        
-        public Link CreateLink(string newRel, IDictionary<string, object> parameters) {
-            var clone = Clone();
 
-            clone.Rel = newRel;
-            clone.Href = CreateUri(parameters).ToString();
+        public Link ResolveFor(string linkBase, object dto, JsonSerializer serializer)
+        {
+            var dtoType = dto.GetType();
+            var clone = MemberwiseClone() as Link;
+            var uri = new UriTemplate(clone.Href);
 
-            return clone;
-        }
-
-        internal Link CreateLink(IDictionary<string, object> parameters) {
-            return CreateLink(Rel, parameters);
-        }
-
-        internal Uri CreateUri(IDictionary<string, object> parameters) {
-            var href = this.Href.SubstituteParams(parameters);
-            return GetHrefUri(href);
-        }
-
-        internal Link RebaseLink(string baseUriString) {
-            var clone = Clone();
-
-            var hrefUri = GetHrefUri(clone.Href);
-            if (!hrefUri.IsAbsoluteUri) {
-                var baseUri = new Uri(baseUriString, UriKind.RelativeOrAbsolute);
-                var rebasedUri = new Uri(baseUri, hrefUri);
-
-                clone.Href = rebasedUri.ToString();
+            foreach (string param in uri.GetParameterNames())
+            {
+                object value;
+                if (!ReferenceEquals(value = dtoType.GetProperty(param)?.GetValue(dto), null))
+                {
+                    var token = JToken.FromObject(value, serializer);
+                    uri.SetParameter(param, token.Value<string>());
+                }
             }
 
+            var linkUri = new Uri(uri.Resolve(), UriKind.RelativeOrAbsolute);
+
+            if (!linkUri.IsAbsoluteUri) {
+                var baseUri = new Uri(linkBase, UriKind.RelativeOrAbsolute);
+                linkUri = new Uri(baseUri, linkUri);
+            }
+
+            clone.Href = linkUri.ToString();
+
             return clone;
-        }
-
-        public Link Clone() {
-            return (Link)MemberwiseClone();
-        }
-
-        private static Uri GetHrefUri(string href) {
-            return new Uri(href, UriKind.RelativeOrAbsolute);
         }
     }
 }

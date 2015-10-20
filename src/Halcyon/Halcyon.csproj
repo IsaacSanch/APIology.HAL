@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -56,19 +56,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HAL\ControllerExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HAL\HALModel.cs" />
-    <Compile Include="HAL\HALModelConfig.cs" />
-    <Compile Include="HAL\IHALModelConfig.cs" />
+    <Compile Include="HAL\HALModelConverter.cs" />
+    <Compile Include="HAL\HALModelExtensions.cs" />
     <Compile Include="HAL\JsonHALMediaTypeFormatter.cs" />
     <Compile Include="HAL\Link.cs" />
-    <Compile Include="HAL\ModelExtensions.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Templates\TemplateExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

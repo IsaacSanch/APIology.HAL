@@ -15,8 +15,8 @@ namespace Halcyon.HAL {
 
         private readonly string[] jsonMediaTypes;
 
-        public JsonHALMediaTypeFormatter(string[] halJsonMediaTypes = null, string[] jsonMediaTypes = null)
-            : base() {
+        public JsonHALMediaTypeFormatter(string[] halJsonMediaTypes = null, string[] jsonMediaTypes = null) : base()
+        {
             if (halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
             if (jsonMediaTypes == null) jsonMediaTypes = new string[] { };
 
@@ -50,9 +50,9 @@ namespace Halcyon.HAL {
                 var halResponse = ((HALModel)value);
 
                 string mediaType = content.Headers.ContentType.MediaType;
-                if (!halResponse.Config.ForceHAL && (jsonMediaTypes.Contains(mediaType) || mediaType == JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
+                /*if (!halResponse.Config.ForceHAL && (jsonMediaTypes.Contains(mediaType) || mediaType == JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
                     value = halResponse.ToPlainResponse();
-                }
+                }*/
             }
 
             return base.WriteToStreamAsync(type, value, writeStream, content, transportContext);
