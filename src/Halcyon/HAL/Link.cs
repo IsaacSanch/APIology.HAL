@@ -58,14 +58,14 @@ namespace Halcyon.HAL {
 
         public Link ResolveFor(string linkBase, object dto, JsonSerializer serializer)
         {
-            var dtoType = dto.GetType();
+            var dtoType = dto?.GetType();
             var clone = MemberwiseClone() as Link;
             var uri = new UriTemplate(clone.Href);
 
             foreach (string param in uri.GetParameterNames())
             {
                 object value;
-                if (!ReferenceEquals(value = dtoType.GetProperty(param)?.GetValue(dto), null))
+                if (!ReferenceEquals(value = dtoType?.GetProperty(param)?.GetValue(dto), null))
                 {
                     var token = JToken.FromObject(value, serializer);
                     uri.SetParameter(param, token.Value<string>());
