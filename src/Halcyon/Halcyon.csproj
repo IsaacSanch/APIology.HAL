@@ -56,8 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HAL\ControllerExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HAL\HALModel.cs" />
     <Compile Include="HAL\HALModelConverter.cs" />
     <Compile Include="HAL\HALModelExtensions.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="Halcyon.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
