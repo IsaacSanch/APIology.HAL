@@ -50,9 +50,9 @@ namespace Halcyon.HAL {
                 var halResponse = ((HALModel)value);
 
                 string mediaType = content.Headers.ContentType.MediaType;
-                /*if (!halResponse.Config.ForceHAL && (jsonMediaTypes.Contains(mediaType) || mediaType == JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
-                    value = halResponse.ToPlainResponse();
-                }*/
+                if (!halResponse.Config.ForceHAL && (jsonMediaTypes.Contains(mediaType) || mediaType == JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
+                    value = halResponse.ToJObject();
+                }
             }
 
             return base.WriteToStreamAsync(type, value, writeStream, content, transportContext);

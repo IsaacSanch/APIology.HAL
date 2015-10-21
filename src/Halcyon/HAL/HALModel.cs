@@ -10,35 +10,51 @@ namespace Halcyon.HAL
     [JsonConverter(typeof(HALModelConverter))]
     public class HALModel
     {
-        internal object dto { get; set; }
-        internal readonly List<Link> links = new List<Link>();
-        internal readonly Dictionary<string, IEnumerable<HALModel>> embedded = new Dictionary<string, IEnumerable<HALModel>>();
-        internal string baseUri;
+        internal object Dto { get; set; }
+        internal readonly List<Link> Links = new List<Link>();
+        internal readonly Dictionary<string, IEnumerable<HALModel>> Embeds = new Dictionary<string, IEnumerable<HALModel>>();
+        private readonly IHALModelConfig config;
 
-        public HALModel()
+        public HALModel() : this(null)
         {
         }
 
-        public HALModel(object dto)
+        public HALModel(IHALModelConfig config)
         {
-            this.dto = dto;
+            this.config = config ?? new HALModelConfig();
+        }
+
+        public HALModel(object dto, IHALModelConfig config = null) : this(config)
+        {
+            Dto = dto;
+        }
+
+        public IHALModelConfig Config
+        {
+            get { return config; }
+        }
+
+        public HALModel SetLinkBaseUri(string uri)
+        {
+            config.LinkBase = uri;
+            return this;
         }
 
         public HALModel AddLinks(IEnumerable<Link> links)
         {
-            this.links.AddRange(links);
+            this.Links.AddRange(links);
             return this;
         }
 
         public HALModel AddLinks(params Link[] links)
         {
-            this.links.AddRange(links);
+            this.Links.AddRange(links);
             return this;
         }
 
         public HALModel AddEmbeddedCollection(string name, IEnumerable<HALModel> objects)
         {
-            embedded.Add(name, objects);
+            Embeds.Add(name, objects);
             return this;
         }
         public HALModel AddEmbeddedCollection<T>(string collectionName, IEnumerable<T> model, IEnumerable<Link> links = null)

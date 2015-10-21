@@ -15,11 +15,11 @@ namespace Halcyon.HAL {
         public static IHttpActionResult HAL(this ApiController controller, IEnumerable<Link> links, string relativeLinkBase = "~/") {
             return new HALModel()
                 .AddLinks(links)
-                .ToResult(controller, relativeLinkBase);
+                .ToActionResult(controller, relativeLinkBase);
         }
 
         public static IHttpActionResult HAL<T>(this ApiController controller, HALModel hyperMedia, string relativeLinkBase = "~/") {
-            return hyperMedia.ToResult(controller, relativeLinkBase);
+            return hyperMedia.ToActionResult(controller, relativeLinkBase);
         }
 
         public static IHttpActionResult HAL<T>(this ApiController controller, T model, Link link, string relativeLinkBase = "~/") {
@@ -33,7 +33,7 @@ namespace Halcyon.HAL {
 
             return new HALModel(model)
                 .AddLinks(links)
-                .ToResult(controller, relativeLinkBase);
+                .ToActionResult(controller, relativeLinkBase);
         }
 
         public static IHttpActionResult HAL<T, E>(this ApiController controller, T model, Link modelLink, string embeddedName, IEnumerable<E> embeddedModel, Link embeddedLink, string relativeLinkBase = "~/") {
@@ -49,7 +49,7 @@ namespace Halcyon.HAL {
             return new HALModel(model)
                 .AddLinks(modelLinks)
                 .AddEmbeddedCollection(embeddedName, embeddedModel, embeddedLinks)
-                .ToResult(controller, relativeLinkBase);
+                .ToActionResult(controller, relativeLinkBase);
         }
     }
 }

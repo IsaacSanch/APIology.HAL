@@ -59,8 +59,10 @@
     <Compile Include="HAL\ControllerExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HAL\HALModel.cs" />
+    <Compile Include="HAL\HALModelConfig.cs" />
     <Compile Include="HAL\HALModelConverter.cs" />
     <Compile Include="HAL\HALModelExtensions.cs" />
+    <Compile Include="HAL\IHALModelConfig.cs" />
     <Compile Include="HAL\JsonHALMediaTypeFormatter.cs" />
     <Compile Include="HAL\Link.cs" />
     <Compile Include="ObjectExtensions.cs" />
