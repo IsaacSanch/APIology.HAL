@@ -11,11 +11,11 @@ namespace Halcyon.HAL.Attributes
     {
         internal HalLink LinkTemplate { get; private set; }
 
-        public HalEmbeddedValuesAttribute(string linkTemplate = null, string linkProperty = null)
+        public HalEmbeddedValuesAttribute(string linkTemplate = null)
         {
             if (linkTemplate != null)
             {
-                LinkTemplate = new HalLink(linkProperty, linkTemplate);
+                LinkTemplate = new HalLink(null, linkTemplate);
             }
         }
     }
