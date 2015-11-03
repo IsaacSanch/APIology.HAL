@@ -71,11 +71,21 @@ namespace Halcyon.HAL
                                 link = attr.LinkTemplate
                             };
                         }
-                        else
+
+                        if (pair == null || (pair.property == null && itemProps.Length > 0))
                         {
                             pair = itemProps
-                                .Select(p => new PLPair { property = p, link = p.GetCustomAttribute<HalLink>() })
+                                .Select(p => new PLPair {
+                                    property = p,
+                                    link = p.GetCustomAttribute<HalLink>()
+                                })
                                 .Where(p => p.link != null && p.link.Rel == "self")
+                                .Select(p => {
+                                    if (pair?.link != null) {
+                                        p.link = pair.link;
+                                    }
+                                    return p;
+                                })
                                 .SingleOrDefault();
                         }
 
@@ -85,7 +95,7 @@ namespace Halcyon.HAL
                         model.AddLinks(
                             items.Select(i =>
                             {
-                                var link = pair.link.ResolveFor(model, serializer, pair.property?.GetValue(i) ?? i);
+                                var link = pair.link.ResolveFor(i, model.Config, serializer, pair.property?.GetValue(i) ?? i);
                                 link.Rel = prop.Name;
                                 return link;
                             })
@@ -109,19 +119,19 @@ namespace Halcyon.HAL
                         var items = prop.GetValue(model.Dto) as IEnumerable;
                         foreach (var item in items)
                         {
-                            links.Add(link.ResolveFor(model, serializer, item));
+                            links.Add(link.ResolveFor(model.Dto, model.Config, serializer, item));
                         }
                     }
                     else if (link != null && (model.Config.IsRoot | !link.HideIfNotRoot))
                     {
-                        links.Add(link.ResolveFor(model, serializer, prop.GetValue(model.Dto)));
+                        links.Add(link.ResolveFor(model.Dto, model.Config, serializer, prop.GetValue(model.Dto)));
                     }
 
                     return links;
                 })
                 .Where(prop => prop != null)
                 .Union(
-                    model.Links.Select(l => l.ResolveFor(model, serializer))
+                    model.Links.Select(l => l.ResolveFor(model.Dto, model.Config, serializer))
                 )
                 .GroupBy(r => r.Rel)
                 .ToDictionary(k => k.Key,

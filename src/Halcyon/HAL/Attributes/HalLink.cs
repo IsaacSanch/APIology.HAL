@@ -59,10 +59,10 @@ namespace Halcyon.HAL.Attributes
         [JsonProperty("hreflang", NullValueHandling = NullValueHandling.Ignore)]
         public string HrefLang { get; set; }
 
-        public HalLink ResolveFor(HalModel model, JsonSerializer serializer, object memberValue = null)
+        public HalLink ResolveFor(object Dto, IHalModelConfig config, JsonSerializer serializer, object memberValue = null)
         {
             var clone = MemberwiseClone() as HalLink;
-            var dtoType = model.Dto?.GetType();
+            var dtoType = Dto?.GetType();
 
             UriTemplate template;
             if (string.IsNullOrEmpty(Href))
@@ -79,7 +79,7 @@ namespace Halcyon.HAL.Attributes
                     if (param == "value")
                         value = memberValue;
                     else
-                        value = dtoType?.GetProperty(param)?.GetValue(model.Dto);
+                        value = dtoType?.GetProperty(param)?.GetValue(Dto);
 
                     if (value != null)
                     {
@@ -99,9 +99,9 @@ namespace Halcyon.HAL.Attributes
 
             if (!linkUri.IsAbsoluteUri)
             {
-                var baseUri = new Uri(model.Config.RequestPathBase);
+                var baseUri = new Uri(config.RequestPathBase);
                 string basePath = baseUri.GetLeftPart(UriPartial.Authority) +
-                    VirtualPathUtility.ToAbsolute(model.Config.RelativePathBase, baseUri.AbsolutePath);
+                    VirtualPathUtility.ToAbsolute(config.RelativePathBase, baseUri.AbsolutePath);
                 linkUri = new Uri(new Uri(basePath), linkUri);
             }
 
