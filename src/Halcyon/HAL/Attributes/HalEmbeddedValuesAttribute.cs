@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Halcyon.HAL.Attributes
+{
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
+    public class HalEmbeddedValuesAttribute : Attribute
+    {
+        internal HalLink LinkTemplate { get; private set; }
+
+        public HalEmbeddedValuesAttribute(string linkTemplate = null, string linkProperty = null)
+        {
+            if (linkTemplate != null)
+            {
+                LinkTemplate = new HalLink(linkProperty, linkTemplate);
+            }
+        }
+    }
+}

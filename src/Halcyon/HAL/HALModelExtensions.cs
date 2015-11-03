@@ -8,16 +8,17 @@ namespace Halcyon.HAL
 {
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using Newtonsoft.Json.Serialization;
     using System.Net;
     using System.Web.Http;
     using System.Web.Http.Results;
 
-    public static class HALModelExtensions
+    public static class HalModelExtensions
     {
-        private static List<HALModel> GetFlattenedModelList(HALModel model, List<HALModel> stack = null)
+        internal static List<HalModel> GetFlattenedModelList(HalModel model, List<HalModel> stack = null)
         {
             if (stack == null)
-                stack = new List<HALModel>();
+                stack = new List<HalModel>();
 
             foreach (var embedded in model.Embeds.Values.SelectMany(m => m)) {
                 GetFlattenedModelList(embedded, stack);
@@ -26,30 +27,33 @@ namespace Halcyon.HAL
             return stack;
         }
 
-        public static IHttpActionResult ToActionResult(this HALModel model, ApiController controller, string baseUri = "~/", HttpStatusCode statusCode = HttpStatusCode.OK)
+        public static IHttpActionResult ToActionResult(this HalModel model, ApiController controller, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
-            if (!String.IsNullOrWhiteSpace(baseUri))
-            {
-                baseUri = controller.Url.Content(baseUri);
-                var models = GetFlattenedModelList(model);
-                models.ForEach(m => m.SetLinkBaseUri(baseUri));
-            }
-            
-            return new NegotiatedContentResult<HALModel>(statusCode, model, controller);
+            var baseUri = controller.Url.Content("~/");
+            var models = GetFlattenedModelList(model);
+            models.ForEach(m => m.SetRequestPath(baseUri));
+
+            return new NegotiatedContentResult<HalModel>(statusCode, model, controller);
         }
 
-        public static JObject ToJObject(this HALModel model)
+        public static JObject ToJObject(this HalModel model, JsonSerializer serializer)
         {
-            var baseObject = JObject.FromObject(model.Dto);
+            JObject output;
+            if (model.Dto != null)
+                output = JObject.FromObject(model.Dto, serializer);
+            else
+                output = new JObject();
+
+            Func<HalModel, JObject> ToJObject = (HalModel m) => m.ToJObject(serializer);
 
             foreach (var embedPair in model.Embeds)
             {
-                baseObject.Add(embedPair.Key,
+                output.Add(embedPair.Key,
                     new JArray(embedPair.Value.Select(ToJObject))
                 );
             }
 
-            return baseObject;
+            return output;
         }
     }
 }

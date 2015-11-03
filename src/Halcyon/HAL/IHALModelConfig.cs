@@ -1,8 +1,13 @@
-﻿namespace Halcyon.HAL
+﻿using System.Collections.Generic;
+
+namespace Halcyon.HAL
 {
-    public interface IHALModelConfig
+    public interface IHalModelConfig
     {
-        string LinkBase { get; set; }
-        bool ForceHAL { get; }
+        string RelativePathBase { get; set; }
+        string RequestPathBase { get; set; }
+        bool IsRoot { get; set; }
+        string Expands { get; set; }
+        Dictionary<string, dynamic> ExpandMap { get; set; }
     }
 }

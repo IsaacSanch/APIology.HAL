@@ -1,73 +1,85 @@
-﻿using System;
+﻿using Halcyon.HAL.Attributes;
+using Newtonsoft.Json;
+using System.Web.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Halcyon.HAL
 {
-    using Newtonsoft.Json;
-    using System.Web.Http;
-
-    [JsonConverter(typeof(HALModelConverter))]
-    public class HALModel
+    [JsonConverter(typeof(JsonHalModelConverter))]
+    public class HalModel
     {
         internal object Dto { get; set; }
-        internal readonly List<Link> Links = new List<Link>();
-        internal readonly Dictionary<string, IEnumerable<HALModel>> Embeds = new Dictionary<string, IEnumerable<HALModel>>();
-        private readonly IHALModelConfig config;
+        internal readonly List<HalLink> Links = new List<HalLink>();
+        internal readonly Dictionary<string, IEnumerable<HalModel>> Embeds = new Dictionary<string, IEnumerable<HalModel>>();
 
-        public HALModel() : this(null)
-        {
-        }
-
-        public HALModel(IHALModelConfig config)
-        {
-            this.config = config ?? new HALModelConfig();
-        }
-
-        public HALModel(object dto, IHALModelConfig config = null) : this(config)
+        public HalModel(object dto = null, IHalModelConfig config = null)
         {
             Dto = dto;
+            _config = config;
         }
 
-        public IHALModelConfig Config
+        private IHalModelConfig _config;
+        public IHalModelConfig Config
         {
-            get { return config; }
+            get {
+                if (_config == null)
+                {
+                    _config = new HalModelConfig(
+                        Dto.GetType()
+                            .GetCustomAttributes(false)
+                            .OfType<HalModelAttribute>()
+                            .SingleOrDefault()
+                    );
+                }
+                return _config;
+            }
         }
 
-        public HALModel SetLinkBaseUri(string uri)
+        public HalModel SetRelativePath(string uri)
         {
-            config.LinkBase = uri;
+            Config.RelativePathBase = uri;
             return this;
         }
 
-        public HALModel AddLinks(IEnumerable<Link> links)
+        public HalModel SetRequestPath(string uri)
         {
-            this.Links.AddRange(links);
+            Config.RequestPathBase = uri;
             return this;
         }
 
-        public HALModel AddLinks(params Link[] links)
+        public HalModel AddLinks(IEnumerable<HalLink> links)
         {
-            this.Links.AddRange(links);
+            Links.AddRange(links);
             return this;
         }
 
-        public HALModel AddEmbeddedCollection(string name, IEnumerable<HALModel> objects)
+        public HalModel AddLinks(params HalLink[] links)
         {
+            Links.AddRange(links);
+            return this;
+        }
+
+        public HalModel AddEmbeddedModels(string name, IEnumerable<HalModel> objects, Dictionary<string, dynamic> expandMap = null)
+        {
+            foreach (var model in objects)
+                model.Config.ExpandMap = expandMap;
+
             Embeds.Add(name, objects);
             return this;
         }
-        public HALModel AddEmbeddedCollection<T>(string collectionName, IEnumerable<T> model, IEnumerable<Link> links = null)
+        public HalModel AddEmbeddedCollection<T>(string collectionName, IEnumerable<T> model, IEnumerable<HalLink> links = null, Dictionary<string, dynamic> expandMap = null)
         {
             if (links == null) {
-                links = Enumerable.Empty<Link>();
+                links = Enumerable.Empty<HalLink>();
             }
 
             var embedded = model
-                .Select(m => new HALModel(m).AddLinks(links))
+                .Select(m => new HalModel(m).AddLinks(links))
                 .ToArray();
 
-            this.AddEmbeddedCollection(collectionName, embedded);
+            AddEmbeddedModels(collectionName, embedded, expandMap);
 
             return this;
         }

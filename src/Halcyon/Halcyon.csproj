@@ -40,6 +40,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
       <Private>True</Private>
@@ -56,17 +57,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HAL\Attributes\HalEmbeddedValuesAttribute.cs" />
+    <Compile Include="HAL\Attributes\HalModelAttribute.cs" />
+    <Compile Include="HAL\HalModelConfig.cs" />
+    <Compile Include="HAL\JsonHalModelConverter.cs" />
     <Compile Include="HAL\ControllerExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HAL\HALModel.cs" />
-    <Compile Include="HAL\HALModelConfig.cs" />
-    <Compile Include="HAL\HALModelConverter.cs" />
-    <Compile Include="HAL\HALModelExtensions.cs" />
-    <Compile Include="HAL\IHALModelConfig.cs" />
-    <Compile Include="HAL\JsonHALMediaTypeFormatter.cs" />
-    <Compile Include="HAL\Link.cs" />
-    <Compile Include="ObjectExtensions.cs" />
-    <Compile Include="Templates\TemplateExtensions.cs" />
+    <Compile Include="HAL\HalContractResolver.cs" />
+    <Compile Include="HAL\Attributes\HalIgnoreAttribute.cs" />
+    <Compile Include="HAL\HalModel.cs" />
+    <Compile Include="HAL\HalModelConverter.cs" />
+    <Compile Include="HAL\HalModelExtensions.cs" />
+    <Compile Include="HAL\HalSerializerSettings.cs" />
+    <Compile Include="HAL\IHalModelConfig.cs" />
+    <Compile Include="HAL\HalMediaTypeFormatter.cs" />
+    <Compile Include="HAL\Attributes\HalLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
