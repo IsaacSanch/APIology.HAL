@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using Tavis.UriTemplates;
@@ -58,6 +59,13 @@ namespace Halcyon.HAL.Attributes
 
         [JsonProperty("hreflang", NullValueHandling = NullValueHandling.Ignore)]
         public string HrefLang { get; set; }
+        
+        public string[] GetHrefParameters()
+        {
+            return new UriTemplate(Href, true, false)
+                .GetParameterNames()
+                .ToArray();
+        }
 
         public HalLink ResolveFor(object Dto, IHalModelConfig config, JsonSerializer serializer, object memberValue = null)
         {

@@ -67,7 +67,9 @@ namespace Halcyon.HAL
                         if (attr.LinkTemplate != null)
                         {
                             pair = new PLPair {
-                                property = itemProps.SingleOrDefault(p => p.Name == attr.LinkTemplate.Rel),
+                                property = itemProps.SingleOrDefault(p =>
+                                    attr.LinkTemplate.GetHrefParameters().Contains(p.Name)
+                                ),
                                 link = attr.LinkTemplate
                             };
                         }
