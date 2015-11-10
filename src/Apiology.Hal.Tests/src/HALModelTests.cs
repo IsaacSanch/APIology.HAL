@@ -34,7 +34,7 @@ namespace Apiology.Tests.HAL {
             };
         }
 
-        [Fact]
+        /*[Fact]
         public void To_HAL_Model_With_No_Links() {
             dynamic HalModel = new HalModel(model);
 
@@ -107,7 +107,7 @@ namespace Apiology.Tests.HAL {
             Assert.NotNull(embeddedModel);
             AssertModelProperties(embeddedModel);
             AssertModelLinks(embeddedModel);
-        }
+        }*/
 
         private void AssertModelProperties(dynamic HalModel) {
             Assert.Equal(expectedNumber, HalModel.Dto.number);
