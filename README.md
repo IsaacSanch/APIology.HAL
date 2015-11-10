@@ -1,7 +1,9 @@
 # APIology.HAL
+
 ![Build Status](https://ci.appveyor.com/api/projects/status/github/IsaacSanch/APIology.HAL?branch=master&svg=true)
 [![Nuget Version](https://img.shields.io/nuget/v/Apiology.Hal.svg)](https://www.nuget.org/packages/Apiology.Hal/)
 
+<<<<<<< HEAD
 A [HAL](https://github.com/mikekelly/hal_specification) implementation for ASP.NET.
 
 ## Features
@@ -101,5 +103,7 @@ public class controller : ApiController
 }
 ```
 
+=======
+>>>>>>> parent of ac2b37d... Readme update.
 ## Credits
 This project is a long term fork of https://github.com/visualeyes/halcyon in order to support a different methodology.
