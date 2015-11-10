@@ -1,4 +1,4 @@
-﻿using Halcyon.HAL.Attributes;
+﻿using Apiology.Hal.Attributes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace Halcyon.HAL
+namespace Apiology.Hal
 {
     public class HalMediaTypeFormatter : MediaTypeFormatter
     {

@@ -34,8 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -75,16 +75,16 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HAL\HALModelTests.cs" />
     <Compile Include="HAL\JsonHALMediaTypeFormatterTests.cs" />
-    <Compile Include="ObjectExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Halcyon\Halcyon.csproj">
+    <ProjectReference Include="..\Apiology\Apiology.Hal.csproj">
       <Project>{6d43348b-bb99-4431-bf49-f5c277eb2069}</Project>
-      <Name>Halcyon</Name>
+      <Name>Apiology.Hal</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

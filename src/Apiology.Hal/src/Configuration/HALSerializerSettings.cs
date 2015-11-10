@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Halcyon.HAL
+namespace Apiology.Hal
 {
     public class HalSerializerSettings : JsonSerializerSettings
     {

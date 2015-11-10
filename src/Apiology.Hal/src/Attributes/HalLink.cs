@@ -6,11 +6,12 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Tavis.UriTemplates;
 
-namespace Halcyon.HAL.Attributes
+namespace Apiology.Hal.Attributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class HalLink : Attribute
     {
+        public static readonly string RelForSelf = "self";
         private static readonly Regex isTemplatedRegex = new Regex(@"{.+}", RegexOptions.Compiled);
 
         public HalLink(string rel, string href = "", string title = null, string method = null, string type = null, bool hideIfNotRoot = false)

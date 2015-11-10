@@ -1,4 +1,4 @@
-﻿using Halcyon.HAL.Attributes;
+﻿using Apiology.Hal.Attributes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Halcyon.HAL
+namespace Apiology.Hal
 {
     public class HalModelConverter : JsonConverter
     {
@@ -39,7 +39,9 @@ namespace Halcyon.HAL
             else
                 output = new JObject();
 
-            foreach (var prop in model.Dto.GetType().GetProperties())
+            var propertiesOfDto = model.Dto?.GetType().GetProperties() ?? new PropertyInfo[] { };
+
+            foreach (var prop in propertiesOfDto)
             {
                 var attr = prop.GetCustomAttribute<HalEmbeddedValuesAttribute>();
                 if (attr != null)
@@ -110,30 +112,30 @@ namespace Halcyon.HAL
                 .GetFlattenedModelList(model)
                 .ForEach(m => m.SetRequestPath(model.Config.RequestPathBase));
 
-            var allLinks = model.Dto.GetType()
-                .GetProperties()
-                .SelectMany(prop => {
-                    List<HalLink> links = new List<HalLink>();
-                    var link = prop.GetCustomAttribute<HalLink>();
-
-                    if (link != null && (model.Config.IsRoot | !link.HideIfNotRoot) && prop.PropertyType.IsArray)
-                    {
-                        var items = prop.GetValue(model.Dto) as IEnumerable;
-                        foreach (var item in items)
-                        {
-                            links.Add(link.ResolveFor(model.Dto, model.Config, serializer, item));
-                        }
-                    }
-                    else if (link != null && (model.Config.IsRoot | !link.HideIfNotRoot))
-                    {
-                        links.Add(link.ResolveFor(model.Dto, model.Config, serializer, prop.GetValue(model.Dto)));
-                    }
-
-                    return links;
-                })
-                .Where(prop => prop != null)
+            var allLinks =
+                model.Links.Select(l => l.ResolveFor(model.Dto, model.Config, serializer))
                 .Union(
-                    model.Links.Select(l => l.ResolveFor(model.Dto, model.Config, serializer))
+                    propertiesOfDto
+                    .SelectMany(prop => {
+                        List<HalLink> links = new List<HalLink>();
+                        var link = prop.GetCustomAttribute<HalLink>();
+
+                        if (link != null && (model.Config.IsRoot | !link.HideIfNotRoot) && prop.PropertyType.IsArray)
+                        {
+                            var items = prop.GetValue(model.Dto) as IEnumerable;
+                            foreach (var item in items)
+                            {
+                                links.Add(link.ResolveFor(model.Dto, model.Config, serializer, item));
+                            }
+                        }
+                        else if (link != null && (model.Config.IsRoot | !link.HideIfNotRoot))
+                        {
+                            links.Add(link.ResolveFor(model.Dto, model.Config, serializer, prop.GetValue(model.Dto)));
+                        }
+
+                        return links;
+                    })
+                    .Where(prop => prop != null)
                 )
                 .GroupBy(r => r.Rel)
                 .ToDictionary(k => k.Key,

@@ -1,4 +1,4 @@
-﻿using Halcyon.HAL.Attributes;
+﻿using Apiology.Hal.Attributes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Halcyon.HAL
+namespace Apiology.Hal
 {
     public class HalContractResolver : DefaultContractResolver
     {

@@ -7,4 +7,3 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancies in Code", "RECS0145:Removes 'private' modifiers that are not required")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancies in Code", "RECS0145:Removes 'private' modifiers that are not required")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancies in Code", "RECS0070:Redundant explicit argument name specification")]
-

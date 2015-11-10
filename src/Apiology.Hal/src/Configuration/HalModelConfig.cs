@@ -1,11 +1,11 @@
-﻿using Halcyon.HAL.Attributes;
+﻿using Apiology.Hal.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Halcyon.HAL
+namespace Apiology.Hal
 {
     public class HalModelConfig : IHalModelConfig
     {

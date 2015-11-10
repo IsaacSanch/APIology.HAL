@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Halcyon.HAL
+namespace Apiology.Hal
 {
     public interface IHalModelConfig
     {

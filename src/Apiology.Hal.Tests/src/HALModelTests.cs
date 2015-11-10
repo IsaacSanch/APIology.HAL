@@ -1,4 +1,5 @@
-﻿using Halcyon.HAL;
+﻿using Apiology.Hal;
+using Apiology.Hal.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Halcyon.Tests.HAL {
+namespace Apiology.Tests.HAL {
 
 
-    public class HALModelTests {
+    public class HalModelTests {
         private readonly int expectedNumber = 1;
         private readonly string expectedHello = "world";
         private readonly object expectedComplex = new {
@@ -18,14 +19,14 @@ namespace Halcyon.Tests.HAL {
 
         private readonly object model = null;
 
-        private readonly IEnumerable<Link> modelLinks = new List<Link> {
-            new Link(Link.RelForSelf, "test"),
-            new Link("number", "number/{number}"),
-            new Link("operations", "operations/plus"),
-            new Link("operations", "operations/minus")
+        private readonly IEnumerable<HalLink> modelLinks = new List<HalLink> {
+            new HalLink(HalLink.RelForSelf, "test"),
+            new HalLink("number", "number/{number}"),
+            new HalLink("operations", "operations/plus"),
+            new HalLink("operations", "operations/minus")
         };
 
-        public HALModelTests() {
+        public HalModelTests() {
             model = new {
                 number = expectedNumber,
                 hello = expectedHello,
@@ -35,36 +36,36 @@ namespace Halcyon.Tests.HAL {
 
         [Fact]
         public void To_HAL_Model_With_No_Links() {
-            dynamic halModel = new HALModel(model);
+            dynamic HalModel = new HalModel(model);
 
-            AssertModelProperties(halModel);
-            Assert.Empty(halModel._links);
+            AssertModelProperties(HalModel);
+            Assert.Empty(HalModel._links);
         }
 
         [Fact]
         public void To_HAL_Model_With_Links() {
-            var halModel = new HALModel(model);
+            var HalModel = new HalModel(model);
 
-            halModel.AddLinks(modelLinks);
+            HalModel.AddLinks(modelLinks);
 
-            AssertModelProperties(halModel);
-            AssertModelLinks(halModel);
+            AssertModelProperties(HalModel);
+            AssertModelLinks(HalModel);
         }
 
         [Fact]
         public void To_HAL_Model_With_Embedded_No_Links() {
-            var halModel = new HALModel(model);
+            var HalModel = new HalModel(model);
 
             var embeddedList = new List<object> { model };
 
-            halModel.AddEmbeddedCollection("one", embeddedList, null);
+            HalModel.AddEmbeddedCollection("one", embeddedList, null);
 
-            dynamic dyn = halModel;
+            dynamic dyn = HalModel;
 
-            AssertModelProperties(halModel);
+            AssertModelProperties(HalModel);
             Assert.Empty(dyn._links);
 
-            var embedded = dyn._embedded as Dictionary<string, IEnumerable<HALModel>>;
+            var embedded = dyn._embedded as Dictionary<string, IEnumerable<HalModel>>;
 
             Assert.NotNull(embedded);
 
@@ -82,17 +83,17 @@ namespace Halcyon.Tests.HAL {
 
         [Fact]
         public void To_HAL_Model_With_Embedded_With_Links() {
-            var halModel = new HALModel(model);
+            var HalModel = new HalModel(model);
 
             var embeddedList = new List<object> { model };
 
-            halModel.AddEmbeddedCollection("one", embeddedList, modelLinks);
+            HalModel.AddEmbeddedCollection("one", embeddedList, modelLinks);
 
-            AssertModelProperties(halModel);
+            AssertModelProperties(HalModel);
 
-            dynamic dyn = halModel;
+            dynamic dyn = HalModel;
 
-            var embedded = dyn._embedded as Dictionary<string, IEnumerable<HALModel>>;
+            var embedded = dyn._embedded as Dictionary<string, IEnumerable<HalModel>>;
 
             Assert.NotNull(embedded);
 
@@ -108,10 +109,10 @@ namespace Halcyon.Tests.HAL {
             AssertModelLinks(embeddedModel);
         }
 
-        private void AssertModelProperties(dynamic halModel) {
-            Assert.Equal(expectedNumber, halModel.number);
-            Assert.Equal(expectedHello, halModel.hello);
-            Assert.Equal(expectedComplex, halModel.complex);
+        private void AssertModelProperties(dynamic HalModel) {
+            Assert.Equal(expectedNumber, HalModel.Dto.number);
+            Assert.Equal(expectedHello, HalModel.Dto.hello);
+            Assert.Equal(expectedComplex, HalModel.Dto.complex);
         }
 
         private static void AssertModelLinks(dynamic dyn) {
@@ -119,19 +120,19 @@ namespace Halcyon.Tests.HAL {
 
             Assert.NotNull(links);
 
-            var selfLink = links[Link.RelForSelf] as Link;
+            var selfLink = links[HalLink.RelForSelf] as HalLink;
 
             Assert.NotNull(selfLink);
-            Assert.Equal(Link.RelForSelf, selfLink.Rel);
+            Assert.Equal(HalLink.RelForSelf, selfLink.Rel);
             Assert.Equal("test", selfLink.Href);
 
-            var numberLink = links["number"] as Link;
+            var numberLink = links["number"] as HalLink;
             Assert.NotNull(numberLink);
             Assert.Equal("number", numberLink.Rel);
             Assert.Equal("number/1", numberLink.Href);
 
 
-            var operationLinks = links["operations"] as IEnumerable<Link>;
+            var operationLinks = links["operations"] as IEnumerable<HalLink>;
             Assert.NotNull(operationLinks);
             Assert.Equal(2, operationLinks.Count());
             Assert.Contains(operationLinks, (l) => l.Href == "operations/plus");

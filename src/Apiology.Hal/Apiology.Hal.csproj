@@ -57,21 +57,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HAL\Attributes\HalEmbeddedValuesAttribute.cs" />
-    <Compile Include="HAL\Attributes\HalModelAttribute.cs" />
-    <Compile Include="HAL\HalModelConfig.cs" />
-    <Compile Include="HAL\JsonHalModelConverter.cs" />
-    <Compile Include="HAL\ControllerExtensions.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HAL\HalContractResolver.cs" />
-    <Compile Include="HAL\Attributes\HalIgnoreAttribute.cs" />
-    <Compile Include="HAL\HalModel.cs" />
-    <Compile Include="HAL\HalModelConverter.cs" />
-    <Compile Include="HAL\HalModelExtensions.cs" />
-    <Compile Include="HAL\HalSerializerSettings.cs" />
-    <Compile Include="HAL\IHalModelConfig.cs" />
-    <Compile Include="HAL\HalMediaTypeFormatter.cs" />
-    <Compile Include="HAL\Attributes\HalLink.cs" />
+    <Compile Include="src\Attributes\HalEmbeddedValuesAttribute.cs" />
+    <Compile Include="src\Attributes\HalModelAttribute.cs" />
+    <Compile Include="src\Configuration\HalModelConfig.cs" />
+    <Compile Include="src\Json\JsonHalModelConverter.cs" />
+    <Compile Include="src\GlobalSuppressions.cs" />
+    <Compile Include="src\HalContractResolver.cs" />
+    <Compile Include="src\Attributes\HalIgnoreAttribute.cs" />
+    <Compile Include="src\HalModel.cs" />
+    <Compile Include="src\HalModelConverter.cs" />
+    <Compile Include="src\HalModelExtensions.cs" />
+    <Compile Include="src\Configuration\HalSerializerSettings.cs" />
+    <Compile Include="src\Configuration\IHalModelConfig.cs" />
+    <Compile Include="src\HalMediaTypeFormatter.cs" />
+    <Compile Include="src\Attributes\HalLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

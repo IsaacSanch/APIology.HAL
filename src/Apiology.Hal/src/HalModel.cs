@@ -1,11 +1,11 @@
-﻿using Halcyon.HAL.Attributes;
+﻿using Apiology.Hal.Attributes;
 using Newtonsoft.Json;
 using System.Web.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Halcyon.HAL
+namespace Apiology.Hal
 {
     [JsonConverter(typeof(JsonHalModelConverter))]
     public class HalModel
@@ -27,10 +27,11 @@ namespace Halcyon.HAL
                 if (_config == null)
                 {
                     _config = new HalModelConfig(
-                        Dto.GetType()
+                        Dto?.GetType()
                             .GetCustomAttributes(false)
                             .OfType<HalModelAttribute>()
                             .SingleOrDefault()
+                        ?? new HalModelAttribute()
                     );
                 }
                 return _config;
