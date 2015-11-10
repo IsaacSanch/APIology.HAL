@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Halcyon</id>
+    <id>Apiology.Hal</id>
     <version>$version$</version>
-    <authors>CareerHub</authors>
-    <owners>CareerHub</owners>
-    <projectUrl>https://github.com/visualeyes/halcyon</projectUrl>
+    <authors>IsaacSanch</authors>
+    <owners>IsaacSanch</owners>
+    <projectUrl>https://github.com/IsaacSanch/APIology.HAL</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds HAL support to ASP.NET WebAPI</description>
     <releaseNotes>This is the initial release.</releaseNotes>
@@ -14,12 +14,13 @@
     <dependencies>
       <dependency id="Tavis.UriTemplates" version="0.6.4" />
       <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
+      <dependency id="Newtonsoft.Json" version="6.0.8" />
     </dependencies>
     <frameworkAssemblies>
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="bin\Release\Halcyon.dll" target="lib" />
-    <file src="bin\Release\Halcyon.pdb" target="lib" />
+    <file src="bin\Release\Apiology.Hal.dll" target="lib" />
+    <file src="bin\Release\Apiology.Hal.pdb" target="lib" />
   </files>
 </package>
