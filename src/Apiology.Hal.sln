@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apiology.Hal", "Apiology.Hal\Apiology.Hal.csproj", "{6D43348B-BB99-4431-BF49-F5C277EB2069}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apiology.Hal.Tests", "Apiology.Hal.Tests\Halcyon.Tests.csproj", "{4DCA7283-193F-4F64-8ED2-DDE31D536526}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apiology.Tests", "Apiology.Hal.Tests\Apiology.Tests.csproj", "{4DCA7283-193F-4F64-8ED2-DDE31D536526}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info", "Info", "{7E668F3F-FEB2-4D69-997C-CBDA677373FF}"
 	ProjectSection(SolutionItems) = preProject

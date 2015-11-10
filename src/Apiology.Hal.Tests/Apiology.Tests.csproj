@@ -73,8 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HAL\HALModelTests.cs" />
-    <Compile Include="HAL\JsonHALMediaTypeFormatterTests.cs" />
+    <Compile Include="src\HALModelTests.cs" />
+    <Compile Include="src\JsonHALMediaTypeFormatterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,7 +82,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Apiology\Apiology.Hal.csproj">
+    <ProjectReference Include="..\Apiology.Hal\Apiology.Hal.csproj">
       <Project>{6d43348b-bb99-4431-bf49-f5c277eb2069}</Project>
       <Name>Apiology.Hal</Name>
     </ProjectReference>
