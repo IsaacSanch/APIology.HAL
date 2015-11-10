@@ -35,8 +35,8 @@ build:
 
 deploy:
   provider: NuGet
-  #api_key:
-  #  secure: +AIEY0E9rURDXqzW7YM/RoRXDhOxdTZQ4XyUxNCKR6zaHvj7ha/uZHnhqofdaUu3
+  api_key:
+    secure: 7xb7MphYa3LeOewrQzRnGnYKs6rR01LyhP/C3583s5vkSrIV8Q1BgS8MI0aWcZ/G
   skip_symbols: false
   artifact: /.*\.nupkg/
   on:
