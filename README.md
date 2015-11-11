@@ -7,7 +7,24 @@ A [HAL](https://github.com/mikekelly/hal_specification) implementation for ASP.N
 
 ## Features
 
-...
+- Function-chaining paradigm when manually creating HAL models.
+- Optional attribute-based construction of HAL models.
+
+## Functions
+
+- `HalModel`: The base model.
+- `SetRelativeApiPath`: Sets the relative path for links.
+- `AddLinks(...)`: Adds a link to "_links" node of the HAL document.
+- `AddEmbeddedCollection(...)`: Adds a collection of values to the "_embeds" node of the HAL document.
+- `ToActionResult(...)`: (optional) Translates the HalModel into an `IHttpActionResult`.
+
+## Attributes
+
+- `HalModel(..)`: This attribute contains basic settings for the model, such as the relative path for links.
+- `HalIgnore()`: This attribute causes the field to be ignored when creating the HAL document.
+- `HalLink(...)`: This attribute tell the field to display as a link in the HAL document instead of a field.
+- `HalEmbeddedValues(...)`: This attribute allows embedded data to be represented as links or, using the "expand" query string, display the data embedded into the HAL document.
+    *eg. /attribution/23?expand=subAttributions*
 
 ## Examples
 
