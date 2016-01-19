@@ -47,7 +47,12 @@ namespace Apiology.Hal
                 if (attr != null)
                 {
                     var items = prop.GetValue(model.Dto) as IEnumerable<object>;
-                    if (items == null || !items.Any())
+                    if (items == null)
+                    {
+                        items = new[] { prop.GetValue(model.Dto) };
+                    }
+
+                    if (!items.Any())
                         continue;
 
                     string resolvedPropertyName = null;
