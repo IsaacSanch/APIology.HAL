@@ -46,13 +46,15 @@ namespace Apiology.Hal
                 var attr = prop.GetCustomAttribute<HalReferenceObjectsAttribute>();
                 if (attr != null && (model.Config.IsRoot | !attr.HideIfNotRoot))
                 {
-                    var items = prop.GetValue(model.Dto) as IEnumerable<object>;
-                    if (items == null)
+                    var dtoPropValue = prop.GetValue(model.Dto);
+                    var items = (value as IEnumerable<object>)?.ToArray();
+
+                    if (items == null && !ReferenceEquals(dtoPropValue, null))
                     {
                         items = new[] { prop.GetValue(model.Dto) };
                     }
 
-                    if (!items.Any())
+                    if (ReferenceEquals(items, null) || !items.Any())
                         continue;
 
                     string resolvedPropertyName = null;
