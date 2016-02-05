@@ -23,7 +23,7 @@ A [HAL](https://github.com/mikekelly/hal_specification) implementation for ASP.N
 - `HalModel(..)`: This attribute contains basic settings for the model, such as the relative path for links.
 - `HalIgnore()`: This attribute causes the field to be ignored when creating the HAL document.
 - `HalLink(...)`: This attribute tell the field to display as a link in the HAL document instead of a field.
-- `HalEmbeddedValues(...)`: This attribute allows embedded data to be represented as links or, using the "expand" query string, display the data embedded into the HAL document.
+- `HalReferenceObjects(...)`: This attribute allows embedded data to be represented as links or, using the "expand" query string, display the data embedded into the HAL document.
     *eg. /attribution/23?expand=subAttributions*
 
 ## Examples
@@ -68,7 +68,7 @@ public class AttributedDto
     [HalLink("simpletons", "simpletons/{value}")]
     public int SimpletonId { get; set; }
 
-    [HalEmbeddedValues()]
+    [HalReferenceObjects()]
     public IEnumerable<SubAttributionDto> SubAttributions { get; set; }
 }
 

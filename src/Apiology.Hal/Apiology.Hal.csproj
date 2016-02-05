@@ -57,7 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\Attributes\HalEmbeddedValuesAttribute.cs" />
+    <Compile Include="src\Attributes\HalReferenceObjectsAttribute.cs" />
     <Compile Include="src\Attributes\HalModelAttribute.cs" />
     <Compile Include="src\Configuration\HalModelConfig.cs" />
     <Compile Include="src\Json\JsonHalModelConverter.cs" />

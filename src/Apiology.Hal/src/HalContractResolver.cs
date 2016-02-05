@@ -28,7 +28,7 @@ namespace Apiology.Hal
             var property = base.CreateProperty(member, memberSerialization);
 
             if (
-                (property.AttributeProvider.GetAttributes(true).Any(a => a is HalIgnoreAttribute || a is HalLink || a is HalEmbeddedValuesAttribute)) ||
+                (property.AttributeProvider.GetAttributes(true).Any(a => a is HalIgnoreAttribute || a is HalLink || a is HalReferenceObjectsAttribute)) ||
                 (property.DeclaringType == typeof(Attribute) && property.UnderlyingName == "TypeId")
             )
             {

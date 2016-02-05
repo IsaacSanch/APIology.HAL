@@ -43,8 +43,8 @@ namespace Apiology.Hal
 
             foreach (var prop in propertiesOfDto)
             {
-                var attr = prop.GetCustomAttribute<HalEmbeddedValuesAttribute>();
-                if (attr != null)
+                var attr = prop.GetCustomAttribute<HalReferenceObjectsAttribute>();
+                if (attr != null && (model.Config.IsRoot | !attr.HideIfNotRoot))
                 {
                     var items = prop.GetValue(model.Dto) as IEnumerable<object>;
                     if (items == null)
