@@ -47,7 +47,7 @@ namespace Apiology.Hal
                 if (attr != null && (model.Config.IsRoot | !attr.HideIfNotRoot))
                 {
                     var dtoPropValue = prop.GetValue(model.Dto);
-                    var items = (value as IEnumerable<object>)?.ToArray();
+                    var items = (dtoPropValue as IEnumerable<object>)?.ToArray();
 
                     if (items == null && !ReferenceEquals(dtoPropValue, null))
                     {
