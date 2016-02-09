@@ -69,6 +69,10 @@ namespace Apiology.Hal
 
         public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
         {
+            if (ReferenceEquals(value, null)) {
+                return _baseFormatter.WriteToStreamAsync(typeof (HalModel), new HalModel(), writeStream, content, transportContext);
+            }
+
             var valType = value.GetType();
             if (valType != typeof(HalModel))
             {
