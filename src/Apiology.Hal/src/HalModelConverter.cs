@@ -126,19 +126,20 @@ namespace Apiology.Hal
                     .SelectMany(prop => {
                         List<HalLink> links = new List<HalLink>();
                         var link = prop.GetCustomAttribute<HalLink>();
+                        var propertyValue = prop.GetValue(model.Dto);
 
-                        if (link != null && (model.Config.IsRoot | !link.HideIfNotRoot) && prop.PropertyType.IsArray)
+                        if (link == null || propertyValue == null || (!model.Config.IsRoot & link.HideIfNotRoot))
+                            return links;
+
+                        if (prop.PropertyType.IsArray)
                         {
-                            var items = prop.GetValue(model.Dto) as IEnumerable;
-                            foreach (var item in items)
-                            {
-                                links.Add(link.ResolveFor(model.Dto, model.Config, serializer, item));
-                            }
+                            links.AddRange(
+                                from object item in (IEnumerable) propertyValue
+                                select link.ResolveFor(model.Dto, model.Config, serializer, item)
+                            );
                         }
-                        else if (link != null && (model.Config.IsRoot | !link.HideIfNotRoot))
-                        {
-                            links.Add(link.ResolveFor(model.Dto, model.Config, serializer, prop.GetValue(model.Dto)));
-                        }
+                        else
+                            links.Add(link.ResolveFor(model.Dto, model.Config, serializer, propertyValue));
 
                         return links;
                     })

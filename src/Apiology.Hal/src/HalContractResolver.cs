@@ -16,11 +16,9 @@ namespace Apiology.Hal
 
         protected override JsonConverter ResolveContractConverter(Type objectType)
         {
-            if (objectType == typeof(HalModel)) {
-                return Converter;
-            }
-
-            return base.ResolveContractConverter(objectType);
+            return objectType == typeof(HalModel)
+                ? Converter
+                : base.ResolveContractConverter(objectType);
         }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
@@ -32,9 +30,7 @@ namespace Apiology.Hal
                 (property.DeclaringType == typeof(Attribute) && property.UnderlyingName == "TypeId")
             )
             {
-                property.ShouldSerialize = (instance) => {
-                    return false;
-                };
+                property.ShouldSerialize = (instance) => false;
             }
 
             return property;
