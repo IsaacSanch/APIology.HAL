@@ -126,9 +126,11 @@ namespace Apiology.Hal
                     .SelectMany(prop => {
                         List<HalLink> links = new List<HalLink>();
                         var link = prop.GetCustomAttribute<HalLink>();
-                        var propertyValue = prop.GetValue(model.Dto);
+                        if (link == null)
+                            return links;
 
-                        if (link == null || propertyValue == null || (!model.Config.IsRoot & link.HideIfNotRoot))
+                        var propertyValue = prop.GetValue(model.Dto);
+                        if (propertyValue == null || (!model.Config.IsRoot & link.HideIfNotRoot))
                             return links;
 
                         if (prop.PropertyType.IsArray)
